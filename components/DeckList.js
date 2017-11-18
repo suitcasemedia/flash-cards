@@ -47,17 +47,17 @@ class DeckList extends Component {
 
   }
   render() {
-    const{navigation,decks} = this.props
+    const{navigation,deckTitles} = this.props
 
-    console.log("decks in render function: ", decks)
+   // console.log("decks in render function: ", decks)
    
     const list = [{title:'deck title 1', noOfCards: 50 , key: 1},
                   {title:'deck title 2', noOfCards: 70 , key: 2} ]
 
 
 
-    if (decks){
-      const deckList = decks.map(deck => {return  deck})
+    if (deckTitles){
+     // const deckList = decks.map(deck => {return  deck})
       console.log("deckList",deckList)
        return(
         <View>
@@ -66,13 +66,7 @@ class DeckList extends Component {
             renderItem={this.renderItem}
           />
         </View>
-      )
-
-    
-      
-           
-  
-     
+      )  
     }else{
         return(
           <View>
@@ -94,9 +88,10 @@ function MapDispatchToProps(dispatch){
   }
 }
 function MapStateToProps(state){
-  
- 
-  return {decks  : state.decks}
+  return {
+    deckTitles: state.decks.map(deck => deck.title),
+    decks  : state.decks}
+
 
 }
       
