@@ -1,16 +1,18 @@
-import { createStore} from 'redux'
-//import devToolsEnhancer from 'remote-redux-devtools';
+import { createStore, applyMiddleware, composea} from 'redux'
+import { composeWithDevTools } from 'remote-redux-devtools';
 import reducer from './reducers'
-
+import thunk from 'redux-thunk';
 
   
 
 export default function configureStore() {
   return createStore(
   reducer,
- // devToolsEnhancer(),
-  //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools(
+    applyMiddleware(thunk)
+    // other store enhancers if any
   )
-}
+  
+  )}
 
 

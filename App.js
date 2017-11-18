@@ -19,13 +19,12 @@ import { reactotronRedux } from 'reactotron-redux'
 import './ReactotronConfig'
 
 
+
+
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
-   
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-      
-   
     </View>
   )
 }
@@ -82,25 +81,13 @@ const Stack = StackNavigator({
 })
 
 
-/*
-Reactotron
-  .configure() // controls connection & communication settings
-  .useReactNative() // add all built-in react native plugins
-  .use(reactotronRedux())
-  .connect() // let's connect!
-*/
+
 
 const store = configureStore()
 
-export default class App extends Component {
-  componentDidMount(){
-    
-   
-  }
-  
-  
-  render() {
-   
+class App extends Component {
+
+  render() { 
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
@@ -111,6 +98,8 @@ export default class App extends Component {
     );
   }
 }
+
+export default App
 
 const styles = StyleSheet.create({
   container: {

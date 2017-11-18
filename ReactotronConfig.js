@@ -16,7 +16,7 @@ import { reactotronRedux } from 'reactotron-redux'
       .use(overlay())
       .use(asyncStorage())
       .use(networking())
-     .use(reactotronRedux()) //  <- here i am!
+   //  .use(reactotronRedux()) //  <- here i am!
       .connect()
 
 

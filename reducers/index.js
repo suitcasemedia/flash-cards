@@ -1,11 +1,13 @@
 import {RECEIVE_DECKS, ADD_DECK} from '../actions'
 
-function decks(state={  JavaScript: {title: 'JavaScript',questions: [],}},action){
+function decks(state={  },action){
     switch(action.type){
         case RECEIVE_DECKS:{
+            console.log("receive decks reducer",action.decks)
+            const decks = JSON.parse(action.decks)
             return{
                 ...state,
-                ...action.decks
+                ["decks"]:[ decks] 
             }
         }
         case ADD_DECK:{

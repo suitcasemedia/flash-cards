@@ -1,3 +1,5 @@
+import * as flashcardsAPIUtil from '../utils/api';
+
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const ADD_DECK = 'ADD_DECK'
 
@@ -7,6 +9,16 @@ export function receiveDecks(decks){
         decks,
     }
 }
+
+export const fetchDecks = () => dispatch => (
+    flashcardsAPIUtil
+        .getDecks()
+        .then(decks => dispatch(receiveDecks(decks)))
+  );
+
+
+
+
 export function addDeck(title){
     return{
         type: ADD_DECK,
