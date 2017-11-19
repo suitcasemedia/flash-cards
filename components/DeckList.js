@@ -88,8 +88,9 @@ function MapDispatchToProps(dispatch){
   }
 }
 function MapStateToProps(state){
+  console.log("state in mapStateToProps", state)
   return {
-    deckTitles: state.decks.map(deck => deck.title),
+   // deckTitles: state.decks.map(deck => deck.title),
     decks  : state.decks}
 
 
