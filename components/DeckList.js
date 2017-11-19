@@ -5,6 +5,7 @@ import Deck from './Deck'
 import { StackNavigator } from 'react-navigation'
 import {fetchDecks} from '../actions'
 import{connect} from 'react-redux'
+import _ from 'lodash'
 
 /* 
 import {getDecks} from '../utils/api'
@@ -47,35 +48,18 @@ class DeckList extends Component {
 
   }
   render() {
-    const{navigation,deckTitles} = this.props
-
-   // console.log("decks in render function: ", decks)
+    const{navigation,deckTitles,decks}= this.props
+     return deckTitles.map(title => {
    
-    const list = [{title:'deck title 1', noOfCards: 50 , key: 1},
-                  {title:'deck title 2', noOfCards: 70 , key: 2} ]
-
-
-
-    if (deckTitles){
-     // const deckList = decks.map(deck => {return  deck})
-      console.log("deckList",deckList)
        return(
         <View>
-          <FlatList
-            data={decks}
-            renderItem={this.renderItem}
+          <DeckItem
+            title={title}
+            navigation={navigation}
           />
         </View>
-      )  
-    }else{
-        return(
-          <View>
-          <Text>
-            Loading...
-          </Text>
-        </View>
-        )
-      }
+    )})
+   
 
     }
    
@@ -90,8 +74,9 @@ function MapDispatchToProps(dispatch){
 function MapStateToProps(state){
   console.log("state in mapStateToProps", state)
   return {
-   // deckTitles: state.decks.map(deck => deck.title),
-    decks  : state.decks}
+    deckTitles: _.map(state.decks.decks, deck =>  deck.title),
+    decks  : state.decks
+  }
 
 
 }

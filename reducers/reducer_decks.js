@@ -7,8 +7,8 @@ function decksReducer (state={decks: []},action){
             console.log("receive decks reducer",action.decks)
             const decks = JSON.parse(action.decks)
             return{
-                ...state,
-                ["decks"]:[decks] 
+                
+                ...state,decks
             }
         }
         case ADD_DECK:{
