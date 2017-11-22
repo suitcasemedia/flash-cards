@@ -1,6 +1,27 @@
 import React , {Component} from 'react'
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
 import {purple,lightPurp,white, gray} from '../utils/colors'
+import {connect} from 'react-redux'
+import _ from 'lodash'
+
+
+function StartQuizButton(props){
+    const{isVisible , navigation, title} = props
+    if(isVisible){
+        return(
+            <TouchableOpacity style={styles.androidBtn} onPress={() => navigation.navigate('Quiz', {title})}>
+                <Text style={{color:white,fontSize:30}} >Start quiz</Text>
+            </TouchableOpacity>
+    
+        )
+
+    }
+    else 
+        return(
+            <Text></Text>
+        )
+    
+}
 
 class Deck extends Component {
     static navigationOptions = ({ navigation}) =>{
@@ -12,24 +33,27 @@ class Deck extends Component {
     }
     render(){
         const {navigation} = this.props
-        
+        const {noOfCards,title} = this.props
+
+        console.log("the title from props is ", title)
+        console.log("number of cards from props is ", noOfCards)
         return(
             <View style={{flex:1, alignItems:'center',justifyContent:'center'}}>
                 <View style={{flex:1, alignItems:'center',justifyContent:'center'}}> 
                     <Text style={{fontSize: 40, textAlign:'center'}}>
-                        Hello Zara you are brilliant
+                       {title}
                     </Text>
                
                     <Text style={{fontSize: 40, color: gray}}>
-                        3 cards
+                        {noOfCards} cards
                     </Text>
-                    <TouchableOpacity style={styles.androidBtn} onPress={() => navigation.navigate('AddQuestion')}>
+                    <TouchableOpacity style={styles.androidBtn} onPress={() => navigation.navigate('AddCard', {title} )}>
                         <Text style={{color:white,fontSize:30}} >Add a card</Text>
                     </TouchableOpacity>
+                    <StartQuizButton isVisible={noOfCards > 0}  navigation={navigation} title={title}/>
 
-                    <TouchableOpacity style={styles.androidBtn} onPress={() => navigation.navigate('AskQuestion')}>
-                        <Text style={{color:white,fontSize:30}} >Start quiz</Text>
-                    </TouchableOpacity>
+                  
+                    
                 </View>
             </View>
         )
@@ -65,4 +89,16 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
   })
-export default Deck
+
+  function mapStateToProps({decks}, ownProps){
+    const {deckTitle} = ownProps.navigation.state.params
+    const deck = _.filter(decks.decks , (obj)=>{
+        return obj.title == deckTitle
+    })
+    const{questions, title} = deck[0]
+    return{
+       title,
+      noOfCards :questions.length
+    }
+  }
+export default connect(mapStateToProps)(Deck)

@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TextInput, Button, FlatList, ScrollViewStyle, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, FlatList, ScrollViewStyle, ScrollView,AsyncStorage} from 'react-native';
 import { Constants } from 'expo';
 import Deck from './Deck'
 import { StackNavigator } from 'react-navigation'
 import {fetchDecks} from '../actions'
 import{connect} from 'react-redux'
 import _ from 'lodash'
-
+import Spinner from 'react-native-loading-spinner-overlay';
 /* 
 import {getDecks} from '../utils/api'
 import { AsyncStorage } from 'react-native'
 */
-function DeckItem({title,navigation}){
+function DeckItem({title,navigation, noOfCards}){
   return(
-    <View style={styles.deck} key={title} >
-     
-        <Text  style={styles.deckTitle}  onPress={()=> navigation.navigate(
+    <View style={styles.deck}  >
+        <Text   style={styles.deckTitle}  onPress={()=> navigation.navigate(
           'Deck',
-          {deckTitle: 'Zaras Deck'}
-          
+          {deckTitle: title, noOfCards}  
           )} >{title}</Text>
-       
-        <Text  style={styles.noOfCards} >Number of cards:10</Text>
-      
+        <Text  style={styles.noOfCards} >Number of cards: {noOfCards}</Text> 
     </View>
         )
 }
@@ -30,7 +26,7 @@ class DeckList extends Component {
 
   
   componentDidMount(){
-   // AsyncStorage.clear()
+  //AsyncStorage.clear()
   /*  getDecks() 
     .then((decks)=>{
       let deckList = decks
@@ -44,19 +40,46 @@ class DeckList extends Component {
 
 
   renderItem=({item})=>{
-    return <DeckItem {...item} navigation={this.props.navigation}/>
+    return <DeckItem    {...item} navigation={this.props.navigation}/>
 
   }
   render() {
     const{navigation,deckTitles,decks}= this.props
-     return deckTitles.map(title => {
-   
-       return(
+    if( !decks.length && decks[0] == null ){
+      return(
         <View>
-          <DeckItem
-            title={title}
-            navigation={navigation}
-          />
+          <Text>
+            There are currently no decks of cards. Please add one to get started
+          </Text>
+        </View>
+      )
+    }
+   else if( decks[0] == null ){
+      return(
+        <View>
+       
+        <Spinner visible={true} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
+     
+       
+      </View>
+      )
+
+    }
+    
+  
+    
+   
+     return decks.map((deck,index) => {
+       
+       return(
+        
+        <View   key={index}>
+        <FlatList
+          data={decks}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index}
+        />
+         
         </View>
     )})
    
@@ -72,10 +95,10 @@ function MapDispatchToProps(dispatch){
   }
 }
 function MapStateToProps(state){
-  console.log("state in mapStateToProps", state)
+  //console.log("state in mapStateToProps", state)
   return {
     deckTitles: _.map(state.decks.decks, deck =>  deck.title),
-    decks  : state.decks
+    decks  : _.map(state.decks.decks, deck => ({ "title": deck.title, "noOfCards": deck.questions.length }) ),
   }
 
 

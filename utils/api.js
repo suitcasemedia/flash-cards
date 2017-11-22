@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native'
+import _ from 'lodash'
 const CARDS_STORAGE_KEY = '@QUIZCARDS:key'
 
 
@@ -24,16 +25,7 @@ export  async function saveNewDeck  ( value) {
     await AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
       [value]: {
         title: value,
-        questions: [
-          {
-            question: 'What is React?',
-            answer: 'A library for managing user interfaces'
-          },
-          {
-            question: 'Where do you make Ajax requests in React?',
-            answer: 'The componentDidMount lifecycle event'
-          }
-        ],
+        questions: [null],
        
     },
     }));
@@ -44,6 +36,42 @@ export  async function saveNewDeck  ( value) {
 }
 
 
+//addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck 
+export function addCardToDeck(entry, key ) {
+  const allCards = getDecks().then((decks)=>{
+  //console.log("all cards from the db are:", decks)
+
+ // console.log("the key is:", key)
+  const deckToUpdate = _.filter(JSON.parse(decks) , (obj)=>{
+      return obj.title == key
+   })
+ // console.log("deck to update in async is", deckToUpdate)
+  const oldQuestions = deckToUpdate[0].questions
+ // console.log("the old questions are", oldQuestions)
+  const {question, answer} = entry
+
+  
+  const newState = { [key]:{"questions":[...oldQuestions,{question, answer}]}}
+  console.log("the state is", newState)
+
+  async function addqAndA(newState){
+    try{
+      await AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify(newState))
+    }
+   catch (error) {
+    // Error saving data
+    console.log("there is an error adding new card",error)
+  }
+  }
+ 
+  addqAndA(newState)
+ 
+})
+
+}
+
+
+
 
 
 /*************************************************** */
@@ -52,32 +80,6 @@ export  async function saveNewDeck  ( value) {
 
 
 /*************************************************** */
-
-
-
-
-
-
-
-
-
-
-//getDeck: take in a single id argument and return the deck associated with that id. 
-export function getDeck () {
-  return AsyncStorage.getItem(CARDS_STORAGE_KEY)
-    .then(formatResults)
-}
-//addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck 
-export function addCardToDeck({ entry, key }) {
-    return AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
-      [key]: entry
-    }))
-  }
-
-
-
-
-
 
 
   //delete card

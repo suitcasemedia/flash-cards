@@ -10,6 +10,7 @@ const Form = t.form.Form;
 
 const Deck = t.struct({
   deckTitle: t.String,
+ 
   
 });
 
@@ -43,6 +44,8 @@ const options = {
       error: 'Please give the deck a title'
     },
    
+     
+   
   },
   stylesheet: formStyles,
 };
@@ -50,20 +53,39 @@ const options = {
 
 class AddDeck extends Component {
   
-  handleSubmit = () => {
+  handleSubmit = (navigate) => {
     const value = this._form.getValue();
-    console.log( value.deckTitle);
-    const key = "@QUIZCARDS:key"
-    const title = value.deckTitle
+    console.log( value);
+
+  /*  const key = "@QUIZCARDS:key"
+    
     //Save to 'DB'
-    saveNewDeck(title)
+    
    
 
     // Error saving data
+  */
+   if(value){
+    saveNewDeck(value.deckTitle)
+    .then(this.props.addDeck(value.deckTitle))
+    .then(
+      navigate(
+        'DeckList',
+       {DeckList: "List of decks"}  
+        )
+    )
+   
+   }
   
+     
+  
+  
+    
   }
   
   render() {
+    const {navigation} = this.props
+    const {navigate} = navigation
     return (
       <View style={styles.container}>
         <Form 
@@ -73,7 +95,10 @@ class AddDeck extends Component {
         />
         <Button
           title="Add new deck"
-          onPress={this.handleSubmit}
+          onPress={()=>{
+            this.handleSubmit(navigate)
+          }}
+
         />
       </View>
     );
@@ -82,14 +107,14 @@ class AddDeck extends Component {
 
 function mapDispatchToProps(dispatch){
   return{
-
+      addDeck : (title)=> dispatch(addDeck(title))
   }
 
 }
 function mapStateToProps(){
 
 }
-export default connect()(AddDeck)
+export default connect(null,mapDispatchToProps)(AddDeck)
 
 const styles = StyleSheet.create({
   container: {

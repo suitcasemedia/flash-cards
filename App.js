@@ -3,13 +3,13 @@ import React ,{Component}from 'react'
 import { Platform,StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Constants } from 'expo'
 import AddDeck from './components/AddDeck'
-import AddQuestion from './components/AddQuestion'
+import AddCard from './components/AddCard'
 import DeckList from './components/DeckList'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons ,Entypo} from '@expo/vector-icons'
 import Deck from './components/Deck'
-import AskQuestion from './components/AskQuestion'
+import Quiz from './components/Quiz'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import reducer from './reducers'
@@ -17,6 +17,7 @@ import configureStore from './configureStore'
 import Reactotron from 'reactotron-react-native'
 import { reactotronRedux } from 'reactotron-redux'
 import './ReactotronConfig'
+
 
 
 
@@ -72,11 +73,11 @@ const Stack = StackNavigator({
   Deck:{
     screen: Deck
   },
-  AddQuestion:{
-    screen: AddQuestion
+  AddCard:{
+    screen: AddCard
   },
-  AskQuestion:{
-    screen: AskQuestion
+  Quiz:{
+    screen: Quiz
   }
 })
 
@@ -86,6 +87,11 @@ const Stack = StackNavigator({
 const store = configureStore()
 
 class App extends Component {
+
+  componentDidMount(){
+  
+
+  }
 
   render() { 
     return (
