@@ -25,7 +25,7 @@ export  async function saveNewDeck  ( value) {
     await AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
       [value]: {
         title: value,
-        questions: [null],
+        questions: [],
        
     },
     }));

@@ -63,25 +63,21 @@ class DeckList extends Component {
        
       </View>
       )
-
     }
-    
-  
-    
-   
-     return decks.map((deck,index) => {
-       
+      
        return(
         
-        <View   key={index}>
+        <View >
         <FlatList
+        
           data={decks}
           renderItem={this.renderItem}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => item.title}
         />
          
+       
         </View>
-    )})
+    )
    
 
     }

@@ -52,8 +52,15 @@ const options = {
 
 
 class AddDeck extends Component {
-  
-  handleSubmit = (navigate) => {
+  static navigationOptions = ({ navigation}) =>{
+    
+    return{
+        title:'Add a new deck of cards'
+    }
+  }
+  handleSubmit = () => {
+    const{navigation} = this.props
+    const{navigate} = navigation
     const value = this._form.getValue();
     console.log( value);
 
@@ -74,12 +81,8 @@ class AddDeck extends Component {
        {DeckList: "List of decks"}  
         )
     )
-   
-   }
-  
-     
-  
-  
+    this.setState({ value: null });
+   } 
     
   }
   
@@ -96,7 +99,7 @@ class AddDeck extends Component {
         <Button
           title="Add new deck"
           onPress={()=>{
-            this.handleSubmit(navigate)
+            this.handleSubmit()
           }}
 
         />

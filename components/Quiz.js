@@ -12,7 +12,7 @@ function Score(props) {
     if (isVisible) {
       return (<View style={{flex:1}}>
                 <Text style={{alignItems:'center', justifyContent:'center',textAlign: 'center'}} >You got {finalPercentage}%</Text>
-                <TouchableOpacity style={styles.androidBtn} onPress={() => navigation.navigate('DeckList')}>
+                <TouchableOpacity style={styles.androidBtn} onPress={()=>navigation.navigate('DeckList')}>
                     <Text style={{color:white,  textAlign: 'center',}} >Back to list of decks</Text>
                 </TouchableOpacity>
              </View>
