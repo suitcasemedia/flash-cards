@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, Button, FlatList, ScrollViewStyle, ScrollView,AsyncStorage} from 'react-native';
+import{styles} from '../styles/styles'
 import { Constants } from 'expo';
 import Deck from './Deck'
 import { StackNavigator } from 'react-navigation'
@@ -26,14 +27,10 @@ class DeckList extends Component {
 
   
   componentDidMount(){
+
+
   //AsyncStorage.clear()
-  /*  getDecks() 
-    .then((decks)=>{
-      let deckList = decks
-      console.log("the decks are",deckList)  
-      }
-    )
-    */
+
 
    this.props.fetchDecks()
   }
@@ -101,33 +98,4 @@ function MapStateToProps(state){
 }
       
 export default connect(MapStateToProps, MapDispatchToProps)(DeckList)
-const styles = StyleSheet.create({
-  deckListContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 50,
-    flexDirection: 'row'
-  },
-  deck:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    padding: 30
-  },
-  deckTitle: {
-    padding: 8,
-    fontSize: 30,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  
-  },
-  noOfCards: {
-    padding: 8,
-    fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row'
-  
-  },
-  
-});
+

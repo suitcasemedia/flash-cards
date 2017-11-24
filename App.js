@@ -1,6 +1,7 @@
 
 import React ,{Component}from 'react'
 import { Platform,StatusBar, StyleSheet, Text, View } from 'react-native'
+import{styles} from './styles/styles'
 import { Constants } from 'expo'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
@@ -88,10 +89,7 @@ const store = configureStore()
 
 class App extends Component {
 
-  componentDidMount(){
-  
 
-  }
 
   render() { 
     return (
@@ -106,12 +104,3 @@ class App extends Component {
 }
 
 export default App
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -1,5 +1,6 @@
 import React , {Component} from 'react'
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
+import {styles} from '../styles/styles'
 import {purple,lightPurp,white, gray} from '../utils/colors'
 import {connect} from 'react-redux'
 import _ from 'lodash'
@@ -35,8 +36,7 @@ class Deck extends Component {
         const {navigation} = this.props
         const {noOfCards,title} = this.props
 
-        console.log("the title from props is ", title)
-        console.log("number of cards from props is ", noOfCards)
+
         return(
             <View style={{flex:1, alignItems:'center',justifyContent:'center'}}>
                 <View style={{flex:1, alignItems:'center',justifyContent:'center'}}> 
@@ -62,33 +62,7 @@ class Deck extends Component {
 
 }
 
-const styles = StyleSheet.create({
-    row: {
-      flexDirection: 'row',
-      flex: 1,
-      alignItems: 'center',
-    },
-    androidBtn: {
-      margin: 5,
-      backgroundColor: purple,
-      padding: 10,
-      borderRadius: 2,
-    },
-    iosBtn: {
-      backgroundColor: white,
-      borderColor: purple,
-      borderWidth: 1,
-      borderRadius: 3,
-      padding: 5,
-      paddingLeft: 25,
-      paddingRight: 25,
-    },
-    metricCounter: {
-      width: 85,
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-  })
+
 
   function mapStateToProps({decks}, ownProps){
     const {deckTitle} = ownProps.navigation.state.params

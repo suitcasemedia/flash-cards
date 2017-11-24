@@ -1,5 +1,6 @@
 import React , {Component} from 'react'
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
+import {styles} from '../styles/styles'
 import {purple,lightPurp,white, gray, red} from '../utils/colors'
 import FlipCard from 'react-native-flip-card'
 import {connect} from 'react-redux'
@@ -8,10 +9,19 @@ import { setUpQuizQuestions , processAnswer} from '../actions/index';
 import {setLocalNotification,clearLocalNotifications} from './../utils/helpers'
 
 function Score(props) {
-    const {isVisible,finalPercentage,navigation} = props;
+    const {isVisible,finalPercentage,navigation,title} = props;
     if (isVisible) {
       return (<View style={{flex:1}}>
                 <Text style={{alignItems:'center', justifyContent:'center',textAlign: 'center'}} >You got {finalPercentage}%</Text>
+
+                <TouchableOpacity style={styles.androidBtn} onPress={()=>navigation.navigate('Quiz', {title})}>
+                    <Text style={{color:white,  textAlign: 'center',}} >Restart quiz</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.androidBtn} onPress={()=>navigation.navigate('Deck',{deckTitle: title})}>
+                    <Text style={{color:white,  textAlign: 'center',}} >Return to deck</Text>
+                </TouchableOpacity>
+                
                 <TouchableOpacity style={styles.androidBtn} onPress={()=>navigation.navigate('DeckList')}>
                     <Text style={{color:white,  textAlign: 'center',}} >Back to list of decks</Text>
                 </TouchableOpacity>
@@ -95,7 +105,8 @@ class Quiz extends Component {
     
    
     render(){
-        const {navigation,
+        const {title,
+            navigation,
             questionsFromQuizReducer,
             totalQuestions,
             currentNthCard,
@@ -111,7 +122,7 @@ class Quiz extends Component {
             <View style={{flex:1, alignItems:'center',justifyContent:'center'}}>
                
                 <QuizPageNumbers isVisible={!quizComplete}  currentNthCard={currentNthCard} totalQuestions={totalQuestions} />
-                <Score  finalPercentage={Math.round((totalScore/ totalQuestions) * 100)} isVisible={quizComplete} navigation={navigation}/>
+                <Score  finalPercentage={Math.round((totalScore/ totalQuestions) * 100)} isVisible={quizComplete} navigation={navigation} title={title}/>
                <FlipContent isVisible={!quizComplete}  questionsFromQuizReducer={questionsFromQuizReducer} processAnswer={processAnswer} />
                 
             </View>
@@ -121,6 +132,10 @@ class Quiz extends Component {
 
 
 }
+
+
+
+
 
 
 
@@ -151,73 +166,6 @@ function mapStateToProps({decks,quiz}, ownProps){
     }
 }
 
-
-const styles = StyleSheet.create({
-    row: {
-      flexDirection: 'row',
-      flex: 1,
-      alignItems: 'center',
-    },
-    androidBtn: {
-      margin: 5,
-      backgroundColor: purple,
-      padding: 10,
-      borderRadius: 2,
-    },
-    iosBtn: {
-      backgroundColor: white,
-      borderColor: purple,
-      borderWidth: 1,
-      borderRadius: 3,
-      padding: 5,
-      paddingLeft: 25,
-      paddingRight: 25,
-    },
-    FlipCard:{
-        borderWidth: 0,
-    
-    },
-    face: {
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        
-     
-    },
-    back:{
-       
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-       
-    },
-    question:{
-      fontSize: 30,
-
-    },
-    flipText:{
-        fontSize: 15,
-
-    },
-    correctBtn:{
-        backgroundColor:'green',
-        margin: 5,
-        padding: 10,
-        borderRadius: 2,
-        
-
-    },
-    incorrectBtn:{
-        backgroundColor: red,
-        margin: 5,
-        padding: 10,
-        borderRadius: 2,
-       
-
-    },
-  })
 
 function mapDispatchToProps(dispatch){
     return{
